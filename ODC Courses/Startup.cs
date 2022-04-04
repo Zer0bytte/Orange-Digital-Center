@@ -1,6 +1,9 @@
+using Domains;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,6 +29,11 @@ namespace ODC_Courses
         {
             services.Configure<JWT>(Configuration.GetSection("JWT"));
             services.AddControllersWithViews();
+
+            //services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ODCCoursesManagmentContext>();
+            //services.AddDbContext<ODCCoursesManagmentContext>(options =>
+            //options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+            //);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

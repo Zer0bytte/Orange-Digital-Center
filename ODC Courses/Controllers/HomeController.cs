@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Domains;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using ODC_Courses.Models;
 using System;
@@ -20,6 +22,9 @@ namespace ODC_Courses.Controllers
 
         public IActionResult Index()
         {
+        ODCCoursesManagmentContext db = new ODCCoursesManagmentContext();
+
+            var users = db.TbRevisions.Include(x => x.Student).ToList();
             return View();
         }
 
