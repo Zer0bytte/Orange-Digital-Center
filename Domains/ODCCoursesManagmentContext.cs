@@ -17,19 +17,14 @@ namespace Domains
         {
         }
 
-        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
-        public virtual DbSet<AspNetRoleClaim> AspNetRoleClaims { get; set; }
-        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
-        public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
-        public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
-        public virtual DbSet<AspNetUserRole> AspNetUserRoles { get; set; }
-        public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
+        public virtual DbSet<TbAdmin> TbAdmins { get; set; }
         public virtual DbSet<TbCategroie> TbCategroies { get; set; }
         public virtual DbSet<TbCourse> TbCourses { get; set; }
         public virtual DbSet<TbEnroll> TbEnrolls { get; set; }
         public virtual DbSet<TbExam> TbExams { get; set; }
         public virtual DbSet<TbQuestion> TbQuestions { get; set; }
         public virtual DbSet<TbRevision> TbRevisions { get; set; }
+        public virtual DbSet<TbStudent> TbStudents { get; set; }
         public virtual DbSet<TbTeaching> TbTeachings { get; set; }
         public virtual DbSet<TbTrainer> TbTrainers { get; set; }
 
@@ -37,6 +32,7 @@ namespace Domains
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Server=DESKTOP-62P7HA1\\SQLEXPRESS;Database=ODC Courses Managment;Trusted_Connection=True;");
             }
         }
@@ -45,97 +41,11 @@ namespace Domains
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
-            modelBuilder.Entity<AspNetRole>(entity =>
+            modelBuilder.Entity<TbAdmin>(entity =>
             {
-                entity.HasIndex(e => e.NormalizedName, "RoleNameIndex")
-                    .IsUnique()
-                    .HasFilter("([NormalizedName] IS NOT NULL)");
+                entity.Property(e => e.Password).IsRequired();
 
-                entity.Property(e => e.Name).HasMaxLength(256);
-
-                entity.Property(e => e.NormalizedName).HasMaxLength(256);
-            });
-
-            modelBuilder.Entity<AspNetRoleClaim>(entity =>
-            {
-                entity.HasIndex(e => e.RoleId, "IX_AspNetRoleClaims_RoleId");
-
-                entity.Property(e => e.RoleId).IsRequired();
-
-                entity.HasOne(d => d.Role)
-                    .WithMany(p => p.AspNetRoleClaims)
-                    .HasForeignKey(d => d.RoleId);
-            });
-
-            modelBuilder.Entity<AspNetUser>(entity =>
-            {
-                entity.HasIndex(e => e.NormalizedUserName, "UserNameIndex")
-                    .IsUnique()
-                    .HasFilter("([NormalizedUserName] IS NOT NULL)");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
-                entity.Property(e => e.Email).HasMaxLength(256);
-
-                entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
-
-                entity.Property(e => e.StudentCreatedAt).HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.UserName).HasMaxLength(256);
-            });
-
-            modelBuilder.Entity<AspNetUserClaim>(entity =>
-            {
-                entity.HasIndex(e => e.UserId, "IX_AspNetUserClaims_UserId");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.AspNetUserClaims)
-                    .HasForeignKey(d => d.UserId);
-            });
-
-            modelBuilder.Entity<AspNetUserLogin>(entity =>
-            {
-                entity.HasKey(e => new { e.LoginProvider, e.ProviderKey });
-
-                entity.HasIndex(e => e.UserId, "IX_AspNetUserLogins_UserId");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.AspNetUserLogins)
-                    .HasForeignKey(d => d.UserId);
-            });
-
-            modelBuilder.Entity<AspNetUserRole>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.HasIndex(e => e.RoleId, "IX_AspNetUserRoles_RoleId");
-
-                entity.Property(e => e.RoleId).IsRequired();
-
-                entity.HasOne(d => d.Role)
-                    .WithMany()
-                    .HasForeignKey(d => d.RoleId);
-
-                entity.HasOne(d => d.User)
-                    .WithMany()
-                    .HasForeignKey(d => d.UserId);
-            });
-
-            modelBuilder.Entity<AspNetUserToken>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.Property(e => e.LoginProvider)
-                    .IsRequired()
-                    .HasMaxLength(450);
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(450);
-
-                entity.HasOne(d => d.User)
-                    .WithMany()
-                    .HasForeignKey(d => d.UserId);
+                entity.Property(e => e.Username).IsRequired();
             });
 
             modelBuilder.Entity<TbCategroie>(entity =>
@@ -150,6 +60,8 @@ namespace Domains
             modelBuilder.Entity<TbCourse>(entity =>
             {
                 entity.HasKey(e => e.CourseId);
+
+                entity.HasIndex(e => e.CategoryId, "IX_TbCourses_CategoryId");
 
                 entity.Property(e => e.CourseLevel).IsRequired();
 
@@ -168,6 +80,10 @@ namespace Domains
             {
                 entity.ToTable("TbEnroll");
 
+                entity.HasIndex(e => e.CourseId, "IX_TbEnroll_CourseId");
+
+                entity.HasIndex(e => e.StudentId, "IX_TbEnroll_StudentId");
+
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.TbEnrolls)
                     .HasForeignKey(d => d.CourseId)
@@ -178,12 +94,14 @@ namespace Domains
                     .WithMany(p => p.TbEnrolls)
                     .HasForeignKey(d => d.StudentId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_TbEnroll_AspNetUsers");
+                    .HasConstraintName("FK_TbEnroll_TbStudents");
             });
 
             modelBuilder.Entity<TbExam>(entity =>
             {
                 entity.HasKey(e => e.ExamId);
+
+                entity.HasIndex(e => e.CourseId, "IX_TbExams_CourseId");
 
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.TbExams)
@@ -194,6 +112,8 @@ namespace Domains
 
             modelBuilder.Entity<TbQuestion>(entity =>
             {
+                entity.HasIndex(e => e.ExamId, "IX_TbQuestions_ExamId");
+
                 entity.Property(e => e.FirstChoice).IsRequired();
 
                 entity.Property(e => e.FourthChoice).IsRequired();
@@ -217,6 +137,10 @@ namespace Domains
             {
                 entity.ToTable("TbRevision");
 
+                entity.HasIndex(e => e.ExamId, "IX_TbRevision_ExamId");
+
+                entity.HasIndex(e => e.StudentId, "IX_TbRevision_StudentId");
+
                 entity.Property(e => e.StudentDegree).HasColumnType("decimal(4, 2)");
 
                 entity.Property(e => e.TotalRightDegrees).HasColumnType("decimal(4, 2)");
@@ -233,12 +157,21 @@ namespace Domains
                     .WithMany(p => p.TbRevisions)
                     .HasForeignKey(d => d.StudentId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_TbRevision_AspNetUsers");
+                    .HasConstraintName("FK_TbRevision_TbStudents");
+            });
+
+            modelBuilder.Entity<TbStudent>(entity =>
+            {
+                entity.HasKey(e => e.StudentId);
             });
 
             modelBuilder.Entity<TbTeaching>(entity =>
             {
                 entity.ToTable("TbTeaching");
+
+                entity.HasIndex(e => e.CourseId, "IX_TbTeaching_CourseId");
+
+                entity.HasIndex(e => e.TrainerId, "IX_TbTeaching_TrainerId");
 
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.TbTeachings)

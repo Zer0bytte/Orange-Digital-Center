@@ -1,13 +1,8 @@
-﻿using Domains;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ODC_Courses.Models;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ODC_Courses.Controllers
 {
@@ -15,16 +10,17 @@ namespace ODC_Courses.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
+
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult IndexAsync()
         {
-        ODCCoursesManagmentContext db = new ODCCoursesManagmentContext();
 
-            var users = db.TbRevisions.Include(x => x.Student).ToList();
+            //ODCCoursesManagmentContext db = new ODCCoursesManagmentContext();
+            //var DDD = db.TbStudents.ToList();
             return View();
         }
 

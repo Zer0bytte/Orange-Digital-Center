@@ -15,6 +15,6 @@ namespace Domains
         public int StudentId { get; set; }
 
         public virtual TbExam Exam { get; set; }
-        public virtual AspNetUser Student { get; set; }
+        public virtual TbStudent Student { get; set; }
     }
 }

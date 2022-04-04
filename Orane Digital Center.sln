@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32228.343
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogic", "BusinessLogic\BusinessLogic.csproj", "{870EFEDA-7036-46D0-9376-6CC2E450EA7C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogic", "BusinessLogic\BusinessLogic.csproj", "{870EFEDA-7036-46D0-9376-6CC2E450EA7C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domains", "Domains\Domains.csproj", "{93FD9016-C4A1-4B4D-82AC-DD2A99452E00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domains", "Domains\Domains.csproj", "{93FD9016-C4A1-4B4D-82AC-DD2A99452E00}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminPanel", "AdminPanel\AdminPanel.csproj", "{DA25BAD0-BC8E-4290-8F2F-A9D2BAA577FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ODC Courses", "ODC Courses\ODC Courses.csproj", "{630C0F08-60A6-4C8F-884C-0D8083DCD90E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ODC Courses", "ODC Courses\ODC Courses.csproj", "{630C0F08-60A6-4C8F-884C-0D8083DCD90E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminPanel", "AdminPanel\AdminPanel.csproj", "{AB9A7E08-EE05-45B4-95ED-EAC2A9EFCDCC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,14 +25,14 @@ Global
 		{93FD9016-C4A1-4B4D-82AC-DD2A99452E00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93FD9016-C4A1-4B4D-82AC-DD2A99452E00}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93FD9016-C4A1-4B4D-82AC-DD2A99452E00}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DA25BAD0-BC8E-4290-8F2F-A9D2BAA577FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DA25BAD0-BC8E-4290-8F2F-A9D2BAA577FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DA25BAD0-BC8E-4290-8F2F-A9D2BAA577FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DA25BAD0-BC8E-4290-8F2F-A9D2BAA577FB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{630C0F08-60A6-4C8F-884C-0D8083DCD90E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{630C0F08-60A6-4C8F-884C-0D8083DCD90E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{630C0F08-60A6-4C8F-884C-0D8083DCD90E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{630C0F08-60A6-4C8F-884C-0D8083DCD90E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB9A7E08-EE05-45B4-95ED-EAC2A9EFCDCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB9A7E08-EE05-45B4-95ED-EAC2A9EFCDCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB9A7E08-EE05-45B4-95ED-EAC2A9EFCDCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB9A7E08-EE05-45B4-95ED-EAC2A9EFCDCC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
