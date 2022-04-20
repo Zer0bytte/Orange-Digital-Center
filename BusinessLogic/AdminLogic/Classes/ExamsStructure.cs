@@ -7,15 +7,16 @@ using System.Threading.Tasks;
 
 namespace BusinessLogic.AdminLogic
 {
-    class clsExams
+    class ExamsStructure : IExamsStructure
     {
         public ODCCoursesManagmentContext DbContext { get; }
+        public IStudentsStructure StudentStructure { get; }
 
-        public clsExams(ODCCoursesManagmentContext DbContext)
+        public ExamsStructure(ODCCoursesManagmentContext DbContext)
         {
             this.DbContext = DbContext;
         }
-        public int CreateExam(int CourseId)
+        public int CreateExam(int CourseId, IStudentsStructure StudentStructure)
         {
             //Create Exam
             TbExam Exam = new TbExam();
@@ -54,5 +55,17 @@ namespace BusinessLogic.AdminLogic
             return Questions;
         }
 
+
+        public TbRevision GetStudentExam(int StudentId)
+        {
+            TbStudent Student = StudentStructure.GetStudentById(StudentId);
+            TbRevision StudentRevision = Student.TbRevisions.FirstOrDefault();
+            return StudentRevision;
+        }
+
+        public int CreateExam(int CourseId)
+        {
+            
+        }
     }
 }

@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace BusinessLogic.AdminLogic
 {
-    public class clsCourses
+    public class CoursesStructure
     {
         public ODCCoursesManagmentContext DbContext { get; }
 
-        public clsCourses(ODCCoursesManagmentContext dbContext)
+        public CoursesStructure(ODCCoursesManagmentContext dbContext)
         {
             DbContext = dbContext;
         }
